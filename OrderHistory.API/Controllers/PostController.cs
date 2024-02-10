@@ -40,12 +40,7 @@ namespace OrderHistory.API.Controllers
                 if(result.Errors?.Keys?.Count is not 0 and not null)
                 {
                     return StatusCode(
-                        result.StatusCode, new
-                        {
-                            Data = result,
-                            Status = result.StatusCode,
-                            Message = result.Message
-                        });
+                        result.StatusCode,result);
                 }
                 var response = new Response<IList<CommentMetadata>> 
                 { 
