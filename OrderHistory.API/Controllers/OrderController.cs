@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Common.Response.Factory;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OrderHistory.Infraestructure.Services.Contracts;
 using System.ComponentModel.DataAnnotations;
@@ -31,12 +32,7 @@ namespace OrderHistory.API.Controllers
                     return NotFound();
                 }
 
-                return Ok(new 
-                { 
-                     Data = result,
-                     Status=HttpStatusCode.OK,
-                     Message ="Ok"
-                });
+                return Ok(Factory.Ok(result));
 
             }
             catch (Exception ex)

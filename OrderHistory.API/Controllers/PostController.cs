@@ -1,5 +1,6 @@
 ﻿using Common.Extensions;
 using Common.Response;
+using Common.Response.Factory;
 using Common.Validation.Order;
 using Microsoft.AspNetCore.Mvc;
 using OrderHistory.Data.Model;
@@ -42,16 +43,8 @@ namespace OrderHistory.API.Controllers
                     return StatusCode(
                         result.StatusCode,result);
                 }
-                var response = new Response<IList<CommentMetadata>> 
-                { 
-                     Data = result.Data,Message = result.Message,StatusCode = result.StatusCode,Success =true
-                };
-                return Ok(new
-                {
-                    Data = response,
-                    Status = HttpStatusCode.OK,
-                    Message = "Ok"
-                });
+                
+                return Ok(Factory.Ok(result.Data));
             }
             catch (Exception ex)
             {
