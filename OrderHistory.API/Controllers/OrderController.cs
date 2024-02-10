@@ -26,6 +26,11 @@ namespace OrderHistory.API.Controllers
             {
 
                 var result = await _ordServices.GetLastMemberOrder();
+                if(result == null)
+                {
+                    return NotFound();
+                }
+
                 return Ok(new 
                 { 
                      Data = result,
