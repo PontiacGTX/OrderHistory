@@ -20,6 +20,16 @@ namespace OrderHistory.API.Controllers
         {
             try
             {
+                if(count<1)
+                {
+                    return BadRequest(new
+                    {
+                        Data =new List<object>(),
+                        Status=HttpStatusCode.BadRequest,
+                        Message="Count cannot be lower than 1"
+                    });
+                }
+
                 var result = await _commentServices.GetTopComments(count);
                 if(result.Data ==null|| result.Data.Count==0)
                     return NotFound();
