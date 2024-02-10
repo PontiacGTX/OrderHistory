@@ -1,4 +1,6 @@
-﻿using Common.Response;
+﻿using Common.Extensions;
+using Common.Response;
+using Common.Validation.Order;
 using Microsoft.AspNetCore.Mvc;
 using OrderHistory.Data.Model;
 using OrderHistory.Infraestructure.Services.Contracts;
@@ -16,17 +18,19 @@ namespace OrderHistory.API.Controllers
         }
 
         [HttpGet("Top")]
+        [GetTopCommentInfoRequestValidation]
         public async Task<IActionResult> GetTopCommentInfo([FromQuery]int count=3)
         {
             try
             {
-                if(count<1)
+                if(!ModelState.IsValid)
                 {
                     return BadRequest(new
                     {
-                        Data =new List<object>(),
-                        Status=HttpStatusCode.BadRequest,
-                        Message="Count cannot be lower than 1"
+                        Data = new List<object>(),
+                        Status = HttpStatusCode.BadRequest,
+                        Message = "Bad request",
+                        Errors = ModelState.GetErrors()
                     });
                 }
 
