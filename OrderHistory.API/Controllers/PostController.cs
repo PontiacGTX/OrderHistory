@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using OrderHistory.Data.Model;
 using OrderHistory.Infraestructure.Services.Contracts;
+using System.Net;
 
 namespace OrderHistory.API.Controllers
 {
@@ -24,13 +25,24 @@ namespace OrderHistory.API.Controllers
                     return NotFound();
                 if(result.Errors?.Keys?.Count is not 0 and not null)
                 {
-                    return StatusCode(result.StatusCode, result);
+                    return StatusCode(
+                        result.StatusCode, new
+                        {
+                            Data = result,
+                            Status = result.StatusCode,
+                            Message = result.Message
+                        });
                 }
                 var response = new Response<IList<CommentMetadata>> 
                 { 
                      Data = result.Data,Message = result.Message,StatusCode = result.StatusCode,Success =true
                 };
-                return Ok(response);
+                return Ok(new
+                {
+                    Data = response,
+                    Status = HttpStatusCode.OK,
+                    Message = "Ok"
+                });
             }
             catch (Exception ex)
             {
